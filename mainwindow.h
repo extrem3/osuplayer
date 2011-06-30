@@ -26,7 +26,6 @@ public slots:
 
 private slots:
         void on_btn_go_clicked();
-        void on_btn_getMousePos_clicked();
         void on_btn_getOsuDimensions_clicked();
 
 
