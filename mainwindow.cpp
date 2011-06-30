@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <time.h>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     srand(time(NULL));
-    mouseMaster = new MouseMaster(this, 100);
+
+    //mouseMaster = new MouseMaster(this, 100);
 }
 
 MainWindow::~MainWindow()
@@ -55,5 +57,22 @@ void MainWindow::on_btn_getMousePos_clicked()
     //timer = new QTimer(this);
     //connect(timer, SIGNAL(timeout()), this, SLOT(MousePositioned));
     //timer->start(3000);
-    QTimer::singleShot(3000, this, SLOT(MousePositioned()));
+
+    //QTimer::singleShot(3000, this, SLOT(MousePositioned()));
+}
+
+void MainWindow::on_btn_getOsuDimensions_clicked()
+{
+    HWND osu_hwnd = FindWindow(TEXT("WindowsForms10.Window.8.app.0.3ce0bb8"), NULL);
+    RECT osu_window_dimensions;
+
+    GetWindowRect(osu_hwnd, &osu_window_dimensions);
+    osu_window_.x = osu_window_dimensions.left;
+    osu_window_.width = osu_window_dimensions.right - osu_window_dimensions.left;
+    osu_window_.y = osu_window_dimensions.top;
+    osu_window_.height = osu_window_dimensions.bottom - osu_window_dimensions.top;
+    ui->lne_x->setText(QString::number(osu_window_.x));
+    ui->lne_width->setText(QString::number(osu_window_.width));
+    ui->lne_y->setText(QString::number(osu_window_.y));
+    ui->lne_height->setText(QString::number(osu_window_.height));
 }

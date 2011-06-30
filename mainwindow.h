@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include <QMainWindow>
+#include <windows.h>
 #include "mousemaster.h"
 
 namespace Ui {
@@ -25,11 +26,19 @@ public slots:
 
 private slots:
         void on_btn_go_clicked();
-
         void on_btn_getMousePos_clicked();
+        void on_btn_getOsuDimensions_clicked();
+
 
 private:
     Ui::MainWindow *ui;
+    struct window_dimensions
+    {
+        int x;
+        int y;
+        int width;
+        int height;
+    } osu_window_;
 };
 
 #endif // MAINWINDOW_H
