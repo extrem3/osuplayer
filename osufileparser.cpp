@@ -4,6 +4,9 @@ OsuFileParser::OsuFileParser(QString file_name)
 {
     ParseFile(file_name);
 }
+
+
+
 void OsuFileParser::ParseFile(QString file_name)
 {
     bool hit_points_found = false;
@@ -168,4 +171,9 @@ int OsuFileParser::DetermineLineType(QString line, bool hit_points_section_found
         return 1;
     }
     return 0;
+}
+
+std::vector<HitPointDetails> OsuFileParser::GetParsedFile()
+{
+    return hit_marks_;
 }
