@@ -11,6 +11,12 @@ MainWindow::MainWindow(QWidget *parent) :
     mouseMaster = new MouseMaster(this, 100);
     fileParser = new OsuFileParser(QString("asdf"));
     fileParser->AddHitPoint(QString("128,192,7735,1,0"));
+    fileParser->AddHitPoint(QString("128,102,7735,1,0"));
+    fileParser->AddSlider(QString("184,248,10177,6,2,B|184:248|117:163|184:88,1,150|8"));
+    fileParser->AddSlider(QString("320,304,47010,2,0,B|232:304,2,80"));
+    fileParser->AddSlider(QString("304,224,58186,2,0,B|344:248|384:224,4,80,0|2|0|2|0"));
+    fileParser->AddSpinner(QString("128,2,7735,1,0,44333"));
+    fileParser->TraceVector();
 }
 
 MainWindow::~MainWindow()
