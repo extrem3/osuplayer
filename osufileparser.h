@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <vector>
 #include <QString>
+#include <QStringList>
 
 class OsuFileParser
 {

@@ -1,4 +1,5 @@
 #include "osufileparser.h"
+#include <QDebug>
 
 OsuFileParser::OsuFileParser(QString file_name)
 {
@@ -34,11 +35,18 @@ void OsuFileParser::AddHitPoint(QString hit_point_string)
 {
     // array indicates:
     //   [0]: it's a hit point (= 1)
-    //   [1]: initialization time
-    //   [2]: x
-    //   [3]: y
+    //   [1]: x
+    //   [2]: y
+    //   [3]: initialization time
+    QStringList hit_point_list = hit_point_string.split(",");
 
-    int hit_points[] = { 1, 2, 3, 4};
-    std::vector<int> hit_positions(hit_points, hit_points + sizeof(hit_points) / sizeof(hit_points[0]));
+    std::vector<int> hit_positions;
+    hit_positions.push_back(1);
+    for (int i = 0; i < hit_point_list.size(); ++i)
+    {
+        int get_number = QString(hit_point_list.at(i).toLocal8Bit().data()).toInt();
+        qDebug() << get_number;
+        hit_positions.push_back(get_number);
+    }
     hit_marks_.push_back(hit_positions);
 }

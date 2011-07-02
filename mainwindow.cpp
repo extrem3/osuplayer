@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     srand(time(NULL));
     mouseMaster = new MouseMaster(this, 100);
     fileParser = new OsuFileParser(QString("asdf"));
+    fileParser->AddHitPoint(QString("128,192,7735,1,0"));
 }
 
 MainWindow::~MainWindow()
