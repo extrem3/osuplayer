@@ -1,9 +1,36 @@
 #include "osufileparser.h"
-#include <QDebug>
 
 OsuFileParser::OsuFileParser(QString file_name)
 {
+    ParseFile(file_name);
+}
+void OsuFileParser::ParseFile(QString file_name)
+{
+    bool hit_points_found = false;
+    QFile file(file_name);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
 
+    QTextStream in(&file);
+    QString line = in.readLine();
+    while (!line.isNull()) {
+        switch (DetermineLineType(line, hit_points_found))
+        {
+            case 5:
+                hit_points_found = true;
+                break;
+            case 1:
+                AddHitPoint(line);
+                break;
+            case 2:
+                AddSlider(line);
+                break;
+            case 4:
+                AddSpinner(line);
+                break;
+        }
+        line = in.readLine();
+    }
 }
 
 void OsuFileParser::AddSpinner(QString spinner_string)
@@ -66,7 +93,13 @@ void OsuFileParser::AddSlider(QString slider_string)
         QStringList inner_list_coordinates = QString(inner_hit_point_list.at(i)).split(":");
         HitPointDetails inner_positions;
 
-        inner_positions.type = 0;
+        if (i == inner_hit_point_list.size() - 1)
+        {
+            inner_positions.type = 3;
+        }else
+        {
+            inner_positions.type = 0;
+        }
         inner_positions.x = QString(inner_list_coordinates.at(0)).toInt();
         inner_positions.y = QString(inner_list_coordinates.at(1)).toInt();
         inner_positions.time = 50;
@@ -107,4 +140,30 @@ void OsuFileParser::TraceVector()
     {
         qDebug() << (*it).type << " x:" << (*it).x << " y:" << (*it).y << " time:" << (*it).time;
     }
+}
+
+int OsuFileParser::DetermineLineType(QString line, bool hit_points_section_found)
+{
+    if (hit_points_section_found == false)
+    {
+        if (line == "[HitObjects]")
+        {
+            return 5;
+        }
+    }else
+    {
+        if (line.contains("|"))
+        {
+            //its a slider
+            return 2;
+        }
+        if (line.count(",") == 5)
+        {
+            //its a spinner
+            return 4;
+        }
+        //else its a hit_point
+        return 1;
+    }
+    return 0;
 }
