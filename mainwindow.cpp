@@ -9,8 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     srand(time(NULL));
     mouseMaster = new MouseMaster(this, 100);
-    fileParser = new OsuFileParser(QString("asdf"));
-    fileParser->AddHitPoint(QString("128,192,7735,1,0"));
+    fileParser = new OsuFileParser(QString("D:/games/osu/Songs/21472 Yoko Takahashi - Cruel Angel's Thesis (TV Size)/Yoko Takahashi - Cruel Angel's Thesis (TV Size) (lepidopodus) [Easy].osu"));
+    fileParser->TraceVector();
 }
 
 MainWindow::~MainWindow()
