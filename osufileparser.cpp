@@ -51,7 +51,12 @@ void OsuFileParser::AddSpinner(QString spinner_string)
     hit_positions.x = QString(hit_point_list.at(0).toLocal8Bit().data()).toInt();
     hit_positions.y = QString(hit_point_list.at(1).toLocal8Bit().data()).toInt();
     hit_positions.time = QString(hit_point_list.at(2).toLocal8Bit().data()).toInt();
-    hit_positions.duration = QString(hit_point_list.at(5).toLocal8Bit().data()).toInt();
+
+    hit_marks_.push_back(hit_positions);
+
+    //now to indicate we can release it
+    hit_positions.type = 3;
+    hit_positions.time = QString(hit_point_list.at(5).toLocal8Bit().data()).toInt();
 
     hit_marks_.push_back(hit_positions);
 }
@@ -82,16 +87,15 @@ void OsuFileParser::AddSlider(QString slider_string)
     hit_positions.x = QString(hit_point_list.at(0)).toInt();
     hit_positions.y = QString(hit_point_list.at(1)).toInt();
     hit_positions.time = QString(hit_point_list.at(2)).toInt();
-    hit_positions.duration = 0;
     hit_marks_.push_back(hit_positions);
 
     QStringList inner_hit_point_list = QString(hit_point_list.at(5)).split("|");
+    HitPointDetails inner_positions;
 
     for (int i = 1; i < inner_hit_point_list.size(); ++i)
     {
         //first one is goning to be "B", so let's skip it, and others are defined as x:y
         QStringList inner_list_coordinates = QString(inner_hit_point_list.at(i)).split(":");
-        HitPointDetails inner_positions;
 
         if (i == inner_hit_point_list.size() - 1)
         {
@@ -103,7 +107,6 @@ void OsuFileParser::AddSlider(QString slider_string)
         inner_positions.x = QString(inner_list_coordinates.at(0)).toInt();
         inner_positions.y = QString(inner_list_coordinates.at(1)).toInt();
         inner_positions.time = 50;
-        inner_positions.duration = 0;
 
         hit_marks_.push_back(inner_positions);
 
@@ -130,7 +133,6 @@ void OsuFileParser::AddHitPoint(QString hit_point_string)
     hit_positions.x = QString(hit_point_list.at(0).toLocal8Bit().data()).toInt();
     hit_positions.y = QString(hit_point_list.at(1).toLocal8Bit().data()).toInt();
     hit_positions.time = QString(hit_point_list.at(2).toLocal8Bit().data()).toInt();
-    hit_positions.duration = 0;
 
     hit_marks_.push_back(hit_positions);
 }
