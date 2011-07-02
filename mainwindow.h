@@ -19,7 +19,7 @@ namespace Ui {
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+    WindowDimensions osu_window_;
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -38,13 +38,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    struct window_dimensions
-    {
-        int x;
-        int y;
-        int width;
-        int height;
-    } osu_window_;
 };
 
 #endif // MAINWINDOW_H

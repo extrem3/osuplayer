@@ -65,6 +65,7 @@ void MainWindow::on_btn_getOsuDimensions_clicked()
     ui->lbl_height->setText(QString::number(osu_window_.height));
 
     osuPlayer->SetHwnd(osu_hwnd);
+    osuPlayer->SetWindowSize(osu_window_);
 }
 
 void MainWindow::SongFocused()

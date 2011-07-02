@@ -25,3 +25,8 @@ void OsuPlayer::ProcessSong(QString song_location)
     song_ = fileParser->GetParsedFile();
     //fileParser->TraceVector(song_);
 }
+
+void OsuPlayer::SetWindowSize(WindowDimensions osu_window_dimensions)
+{
+    osu_window_dimensions_ = osu_window_dimensions;
+}
