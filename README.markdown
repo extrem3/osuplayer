@@ -1,13 +1,14 @@
-Osu Player
+osu! Player
 ==========
 
 Description
 -----------
-plays osu songs for you, or just helps you controll the mouse.
-for educational purposes only. Windows only.
+Plays osu! songs for you, or just helps you controll the mouse.
+For educational purposes only. Windows only.
 
 
 STILL IN DEV
+------------
 
 
 

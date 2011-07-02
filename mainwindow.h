@@ -3,8 +3,15 @@
 
 #include <QtGui>
 #include <QMainWindow>
+#include <QColumnView>
+#include <QString>
+#include <QTimer>
+#include <QDir>
+#include <QDebug>
 #include <windows.h>
+#include <time.h>
 #include "mousemaster.h"
+#include "osufileparser.h"
 
 namespace Ui {
     class MainWindow;
@@ -19,10 +26,12 @@ public:
     ~MainWindow();
     QStandardItemModel model;
     MouseMaster *mouseMaster;
+    OsuFileParser *fileParser;
     QTimer *timer;
 public slots:
         int GetDirectory();
         void MousePositioned();
+        void SongFocused();
 
 private slots:
         void on_btn_go_clicked();

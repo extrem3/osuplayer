@@ -749,8 +749,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>clw_dir</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>SongFocused()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>61</x>
+     <y>93</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>GetDirectory()</slot>
+  <slot>SongFocused()</slot>
  </slots>
 </ui>

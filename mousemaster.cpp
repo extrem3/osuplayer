@@ -1,5 +1,4 @@
 #include "mousemaster.h"
-#include <QTimer>
 
 MouseMaster::MouseMaster(QObject *parent, int fps):
     QObject(parent),

@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <QTimer>
-#include <windows.h>
 #include <QDebug>
+#include <windows.h>
 
 class MouseMaster : public QObject
 {
