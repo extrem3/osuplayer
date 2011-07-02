@@ -13,10 +13,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     mousemaster.cpp \
-    osufileparser.cpp
+    osufileparser.cpp \
+    osuplayer.cpp
 
 HEADERS  += mainwindow.h \
     mousemaster.h \
-    osufileparser.h
+    osufileparser.h \
+    osuplayer.h
 
 FORMS    += mainwindow.ui

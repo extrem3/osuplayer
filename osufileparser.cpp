@@ -1,11 +1,14 @@
 #include "osufileparser.h"
 
-OsuFileParser::OsuFileParser(QString file_name)
+OsuFileParser::OsuFileParser()
 {
-    ParseFile(file_name);
+
 }
 
-
+std::vector<HitPointDetails> OsuFileParser::GetParsedFile()
+{
+    return hit_marks_;
+}
 
 void OsuFileParser::ParseFile(QString file_name)
 {
@@ -139,9 +142,9 @@ void OsuFileParser::AddHitPoint(QString hit_point_string)
 
     hit_marks_.push_back(hit_positions);
 }
-void OsuFileParser::TraceVector()
+void OsuFileParser::TraceVector(std::vector<HitPointDetails> song)
 {
-    for (std::vector<HitPointDetails>::iterator it = hit_marks_.begin(); it < hit_marks_.end(); ++it)
+    for (std::vector<HitPointDetails>::iterator it = song.begin(); it < song.end(); ++it)
     {
         qDebug() << (*it).type << " x:" << (*it).x << " y:" << (*it).y << " time:" << (*it).time;
     }
@@ -173,7 +176,3 @@ int OsuFileParser::DetermineLineType(QString line, bool hit_points_section_found
     return 0;
 }
 
-std::vector<HitPointDetails> OsuFileParser::GetParsedFile()
-{
-    return hit_marks_;
-}

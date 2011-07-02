@@ -7,10 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    srand(time(NULL));
-    mouseMaster = new MouseMaster(this, 100);
-    fileParser = new OsuFileParser(QString("D:/games/osu/Songs/21472 Yoko Takahashi - Cruel Angel's Thesis (TV Size)/Yoko Takahashi - Cruel Angel's Thesis (TV Size) (lepidopodus) [Easy].osu"));
-    fileParser->TraceVector();
+    osuPlayer = new OsuPlayer(this);
 }
 
 MainWindow::~MainWindow()
@@ -44,19 +41,7 @@ int MainWindow::GetDirectory()
 
 void MainWindow::on_btn_go_clicked()
 {
-    mouseMaster->SetPosition(int(rand() % 1680), int(rand() % 1080));
-    mouseMaster->MoveTo(840, 525, 200);
-    QTimer::singleShot(250, mouseMaster, SLOT(Click()));
-    //mouseMaster->SetMousePosition(mouseMaster->GetPositionX(), mouseMaster->GetPositionY() - 30);
-    //mouseMaster->Click();
-}
-
-void MainWindow::MousePositioned()
-{
-    mouseMaster->SetPosition(15,15);
-    QString str;
-    str.append(QString("Window at %1x%2").arg(mouseMaster->GetPositionX()).arg(mouseMaster->GetPositionY()));
-    //ui->lbl_mouse->setText(str);
+    osuPlayer->ProcessSong(QString("D:/games/osu/Songs/21472 Yoko Takahashi - Cruel Angel's Thesis (TV Size)/Yoko Takahashi - Cruel Angel's Thesis (TV Size) (lepidopodus) [Easy].osu"));
 }
 
 void MainWindow::on_btn_getOsuDimensions_clicked()
@@ -79,7 +64,7 @@ void MainWindow::on_btn_getOsuDimensions_clicked()
     ui->lbl_y->setText(QString::number(osu_window_.y));
     ui->lbl_height->setText(QString::number(osu_window_.height));
 
-    BringWindowToTop(osu_hwnd);
+    osuPlayer->SetHwnd(osu_hwnd);
 }
 
 void MainWindow::SongFocused()

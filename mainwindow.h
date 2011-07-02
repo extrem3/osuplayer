@@ -9,9 +9,8 @@
 #include <QDir>
 #include <QDebug>
 #include <windows.h>
-#include <time.h>
-#include "mousemaster.h"
 #include "osufileparser.h"
+#include "osuplayer.h"
 
 namespace Ui {
     class MainWindow;
@@ -25,12 +24,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QStandardItemModel model;
-    MouseMaster *mouseMaster;
     OsuFileParser *fileParser;
+    OsuPlayer *osuPlayer;
     QTimer *timer;
 public slots:
         int GetDirectory();
-        void MousePositioned();
         void SongFocused();
 
 private slots:

@@ -13,20 +13,20 @@ struct HitPointDetails
     int x;
     int y;
     int time;
-    int duration;
 };
 
 class OsuFileParser
 {
 public:
-    OsuFileParser(QString file_name);
+    OsuFileParser();
+    void ParseFile(QString file_name);
+    std::vector<HitPointDetails> GetParsedFile();
+    void TraceVector(std::vector<HitPointDetails> song);
 private:
     std::vector< HitPointDetails > hit_marks_;
-    void ParseFile(QString file_name);
     void AddHitPoint(QString hit_point_string);
     void AddSlider(QString slider_string);
     void AddSpinner(QString spinner_string);
-    void TraceVector();
     int DetermineLineType(QString line, bool hit_points_section_found);
 };
 
