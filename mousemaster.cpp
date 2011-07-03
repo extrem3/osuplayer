@@ -78,12 +78,9 @@ void MouseMaster::Mover()
     --fps_times_;
     if (fps_times_ > 0)
     {
-        dx_ = (final_x_ - x_) / fps_times_;
-        dy_ = (final_y_ - y_) / fps_times_;
-        x_ += dx_;
-        y_ += dy_;
-        SetPosition(x_ + dx_, y_ + dy_);
-        qDebug() << dx_ << "x" << dy_;
+        dx_ = (final_x_ - GetPositionX()) / fps_times_;
+        dy_ = (final_y_ - GetPositionY()) / fps_times_;
+        SetPosition(GetPositionX() + dx_, GetPositionY() + dy_);
         QTimer::singleShot(1000/fps_, this, SLOT(Mover()));
     }else
     {
