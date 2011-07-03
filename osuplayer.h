@@ -25,6 +25,8 @@ class OsuPlayer : public QObject
     WindowDimensions osu_window_dimensions_;
     int current_song_progress_;
     std::vector< HitPointDetails > song_;
+    bool song_started_;
+    QTimer *song_started_timer_;
 public:
     explicit OsuPlayer(QObject *parent = 0);
     ~OsuPlayer();
@@ -32,10 +34,8 @@ public:
     void SetWindowSize(WindowDimensions osu_window_dimensions);
     void ProcessSong(QString song_location);
     void Play();
-signals:
-
-public slots:
-
+private slots:
+    void RealSongStart();
 };
 
 #endif // OSUPLAYER_H

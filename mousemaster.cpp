@@ -8,8 +8,6 @@ MouseMaster::MouseMaster(QObject *parent, int fps):
     dy_ = 0;
     final_x_ = 0;
     final_y_ = 0;
-    x_ = 0;
-    y_ = 0;
     fps_times_ = 0;
 }
 int MouseMaster::GetPositionX()
@@ -63,13 +61,8 @@ void MouseMaster::MoveTo(int x, int y, int time)
     if(fps_times_ != 0)
         return;
     fps_times_ = time / (1000 / fps_);
-    x_ = GetPositionX();
-    y_ = GetPositionY();
     final_x_ = x;
     final_y_ = y;
-    dx_ = (x - x_) / fps_times_;
-    dy_ = (y - y_) / fps_times_;
-    qDebug() << fps_times_ << ": " << dx_ << "x" << dy_;
     Mover();
 }
 

@@ -11,8 +11,6 @@ class MouseMaster : public QObject
     Q_OBJECT
     POINT cursorPos_;
     int fps_;
-    int x_;
-    int y_;
     int final_x_;
     int final_y_;
     signed int dx_;
