@@ -16,6 +16,7 @@ OsuPlayer::~OsuPlayer()
 void OsuPlayer::SetHwnd(HWND osu_hwnd)
 {
     osu_window_hwnd_ = osu_hwnd;
+    mouseMaster->MoveTo(15, 15, 2000);
     //mouseMaster->MoveTo(15, 15, 200);
     //QTimer::singleShot(250, mouseMaster, SLOT(Click()));
    // mouseMaster->Click();
@@ -40,7 +41,5 @@ void OsuPlayer::Play()
     mouseMaster->MoveTo(osu_window_dimensions_.x + osu_window_dimensions_.width - 10,
                         osu_window_dimensions_.y + osu_window_dimensions_.height - 10,
                         100);
-    //QTimer::singleShot(110, mouseMaster, SLOT(Click()));
     QTimer::singleShot(150, mouseMaster, SLOT(PressButton1()));
-    //mouseMaster->Click();
 }

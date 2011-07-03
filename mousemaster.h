@@ -29,13 +29,11 @@ public:
     void PressButton1(int x, int y);
     void ReleaseButton1(int x, int y);
     void MoveTo(int x, int y, int time);
-    void SlideTo(int x, int y, int time);
 public slots:
     void Click();
     void PressButton1();
     void ReleaseButton1();
     void Mover();
-    void Slider();
 };
 
 #endif // MOUSEMASTER_H
