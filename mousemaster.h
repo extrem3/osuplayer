@@ -26,14 +26,14 @@ public:
     int GetPositionY();
     void SetPosition(int x, int y);
     void Click(int x, int y);
-    void PressButton1();
     void PressButton1(int x, int y);
-    void ReleaseButton1();
     void ReleaseButton1(int x, int y);
     void MoveTo(int x, int y, int time);
     void SlideTo(int x, int y, int time);
 public slots:
     void Click();
+    void PressButton1();
+    void ReleaseButton1();
     void Mover();
     void Slider();
 };

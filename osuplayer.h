@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QTimer>
 #include <windows.h>
 #include "mousemaster.h"
 #include "osufileparser.h"
@@ -22,6 +23,7 @@ class OsuPlayer : public QObject
     OsuFileParser *fileParser;
     HWND osu_window_hwnd_;
     WindowDimensions osu_window_dimensions_;
+    int current_song_progress_;
     std::vector< HitPointDetails > song_;
 public:
     explicit OsuPlayer(QObject *parent = 0);
@@ -29,6 +31,7 @@ public:
     void SetHwnd(HWND osu_hwnd);
     void SetWindowSize(WindowDimensions osu_window_dimensions);
     void ProcessSong(QString song_location);
+    void Play();
 signals:
 
 public slots:

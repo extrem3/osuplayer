@@ -42,6 +42,7 @@ int MainWindow::GetDirectory()
 void MainWindow::on_btn_go_clicked()
 {
     osuPlayer->ProcessSong(QString("D:/games/osu/Songs/21472 Yoko Takahashi - Cruel Angel's Thesis (TV Size)/Yoko Takahashi - Cruel Angel's Thesis (TV Size) (lepidopodus) [Easy].osu"));
+    osuPlayer->Play();
 }
 
 void MainWindow::on_btn_getOsuDimensions_clicked()
