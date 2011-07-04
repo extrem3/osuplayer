@@ -112,7 +112,7 @@ void OsuFileParser::AddSlider(QString slider_string)
         }
         inner_positions.x = QString(inner_list_coordinates.at(0)).toDouble() / kWindowWidthPercentage;
         inner_positions.y = QString(inner_list_coordinates.at(1)).toDouble() / kWindowHeightPercentage;
-        inner_positions.time = 50;
+        inner_positions.time = hit_positions.time + i * 20;
 
         hit_marks_.push_back(inner_positions);
 

@@ -41,7 +41,7 @@ int MainWindow::GetDirectory()
 
 void MainWindow::on_btn_go_clicked()
 {
-    osuPlayer->ProcessSong(QString("D:/games/osu/Songs/6358 Toyosaki Aki - Cagayake! GIRLS (TV Size)/Toyosaki Aki - Cagayake! GIRLS (TV Size) (DJPop) [Insane].osu"));
+    osuPlayer->ProcessSong(QString("D:/games/osu/Songs/25569 Nico Nico Douga - Fight Against Squid Girl/Nico Nico Douga - Fight Against Squid Girl (Mafiamaster) [Dou Degeso!].osu"));
     osuPlayer->Play();
 }
 
