@@ -16,7 +16,6 @@ OsuPlayer::~OsuPlayer()
 void OsuPlayer::SetHwnd(HWND osu_hwnd)
 {
     osu_window_hwnd_ = osu_hwnd;
-    //mouseMaster->MoveTo(15, 15, 2000);
 }
 
 void OsuPlayer::SetWindowSize(WindowDimensions osu_window_dimensions)
@@ -28,20 +27,18 @@ void OsuPlayer::ProcessSong(QString song_location)
 {
     fileParser->ParseFile(song_location);
     song_ = fileParser->GetParsedFile();
-    //fileParser->TraceVector(song_);
 }
 
 void OsuPlayer::Play()
 {
     current_song_progress_ = 0;
     BringWindowToTop(osu_window_hwnd_);
-    mouseMaster->MoveTo(osu_window_dimensions_.x + osu_window_dimensions_.width - 10,
-                        osu_window_dimensions_.y + osu_window_dimensions_.height - 10,
-                        100);
-    QTimer::singleShot(150, mouseMaster, SLOT(PressButton1()));
+    mouseMaster->SetPosition(osu_window_dimensions_.x + osu_window_dimensions_.width + 100,
+                        osu_window_dimensions_.y + osu_window_dimensions_.height + 50);
+    QTimer::singleShot(150, mouseMaster, SLOT(Click()));
     song_started_timer_ = new QTimer(this);
     connect(song_started_timer_, SIGNAL(timeout()), this, SLOT(RealSongStart()));
-    song_started_timer_->start(50);
+    song_started_timer_->start(10);
 }
 void OsuPlayer::RealSongStart()
 {
@@ -53,6 +50,26 @@ void OsuPlayer::RealSongStart()
         song_started_timer_->stop();
         delete song_started_timer_;
 
-        mouseMaster->MoveTo(100, 100, 200);
+        SetUpTimers();
     }
+}
+
+void OsuPlayer::SetUpTimers()
+{
+    current_object_=  0;
+    std::vector<HitPointDetails>::iterator i = song_.begin();
+    for (; i != song_.end(); ++i)
+    {
+        QTimer::singleShot((*i).time + 370, this, SLOT(HitObjectTime()));
+    }
+}
+
+void OsuPlayer::HitObjectTime()
+{
+    // make sure you have in-game sensitivity set to 1x
+    int new_x = ((song_[current_object_].x) * osu_window_dimensions_.width) + osu_window_dimensions_.x;
+    int new_y = ((song_[current_object_].y) * osu_window_dimensions_.height) + osu_window_dimensions_.y;
+    mouseMaster->SetPosition(new_x, new_y);
+    mouseMaster->Click();
+    current_object_ ++;
 }

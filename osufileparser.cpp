@@ -54,8 +54,8 @@ void OsuFileParser::AddSpinner(QString spinner_string)
 
     HitPointDetails hit_positions;
     hit_positions.type = 4;
-    hit_positions.x = QString(hit_point_list.at(0).toLocal8Bit().data()).toInt();
-    hit_positions.y = QString(hit_point_list.at(1).toLocal8Bit().data()).toInt();
+    hit_positions.x = QString(hit_point_list.at(0).toLocal8Bit().data()).toDouble() / kWindowWidthPercentage;
+    hit_positions.y = QString(hit_point_list.at(1).toLocal8Bit().data()).toDouble() / kWindowHeightPercentage;
     hit_positions.time = QString(hit_point_list.at(2).toLocal8Bit().data()).toInt();
 
     hit_marks_.push_back(hit_positions);
@@ -90,8 +90,8 @@ void OsuFileParser::AddSlider(QString slider_string)
     // beginning of slider
     HitPointDetails hit_positions;
     hit_positions.type = 2;
-    hit_positions.x = QString(hit_point_list.at(0)).toInt();
-    hit_positions.y = QString(hit_point_list.at(1)).toInt();
+    hit_positions.x = QString(hit_point_list.at(0)).toDouble() / kWindowWidthPercentage;
+    hit_positions.y = QString(hit_point_list.at(1)).toDouble() / kWindowHeightPercentage;
     hit_positions.time = QString(hit_point_list.at(2)).toInt();
     hit_marks_.push_back(hit_positions);
 
@@ -110,8 +110,8 @@ void OsuFileParser::AddSlider(QString slider_string)
         {
             inner_positions.type = 0;
         }
-        inner_positions.x = QString(inner_list_coordinates.at(0)).toInt();
-        inner_positions.y = QString(inner_list_coordinates.at(1)).toInt();
+        inner_positions.x = QString(inner_list_coordinates.at(0)).toDouble() / kWindowWidthPercentage;
+        inner_positions.y = QString(inner_list_coordinates.at(1)).toDouble() / kWindowHeightPercentage;
         inner_positions.time = 50;
 
         hit_marks_.push_back(inner_positions);
@@ -136,8 +136,8 @@ void OsuFileParser::AddHitPoint(QString hit_point_string)
 
     HitPointDetails hit_positions;
     hit_positions.type = 1;
-    hit_positions.x = QString(hit_point_list.at(0).toLocal8Bit().data()).toInt();
-    hit_positions.y = QString(hit_point_list.at(1).toLocal8Bit().data()).toInt();
+    hit_positions.x = QString(hit_point_list.at(0).toLocal8Bit().data()).toDouble() / kWindowWidthPercentage;
+    hit_positions.y = QString(hit_point_list.at(1).toLocal8Bit().data()).toDouble() / kWindowHeightPercentage;
     hit_positions.time = QString(hit_point_list.at(2).toLocal8Bit().data()).toInt();
 
     hit_marks_.push_back(hit_positions);

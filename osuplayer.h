@@ -27,6 +27,7 @@ class OsuPlayer : public QObject
     std::vector< HitPointDetails > song_;
     bool song_started_;
     QTimer *song_started_timer_;
+    int current_object_;
 public:
     explicit OsuPlayer(QObject *parent = 0);
     ~OsuPlayer();
@@ -36,6 +37,8 @@ public:
     void Play();
 private slots:
     void RealSongStart();
+    void SetUpTimers();
+    void HitObjectTime();
 };
 
 #endif // OSUPLAYER_H

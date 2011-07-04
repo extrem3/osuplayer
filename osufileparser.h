@@ -7,11 +7,14 @@
 #include <QStringList>
 #include <QFile>
 
+const double kWindowWidthPercentage = 512.0;
+const double kWindowHeightPercentage = 384.0;
+
 struct HitPointDetails
 {
     int type;
-    int x;
-    int y;
+    double x;
+    double y;
     int time;
 };
 

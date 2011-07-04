@@ -29,7 +29,8 @@ void MouseMaster::SetPosition(int x, int y)
 void MouseMaster::Click()
 {
     GetCursorPos(&cursorPos_);
-    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, cursorPos_.x, cursorPos_.y, 0, 0);
+    mouse_event(MOUSEEVENTF_LEFTDOWN, cursorPos_.x, cursorPos_.y, 0, 0);
+    QTimer::singleShot(15, this, SLOT(ReleaseButton1()));
 }
 void MouseMaster::Click(int x, int y)
 {
