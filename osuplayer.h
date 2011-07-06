@@ -21,6 +21,7 @@ class OsuPlayer : public QObject
     Q_OBJECT
     MouseMaster *mouseMaster;
     OsuFileParser *fileParser;
+    QTimer *real_song_timer_;
     HWND osu_window_hwnd_;
     WindowDimensions osu_window_dimensions_;
     int delay_;
