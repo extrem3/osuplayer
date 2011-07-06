@@ -8,13 +8,6 @@
 #include "mousemaster.h"
 #include "osufileparser.h"
 
-struct WindowDimensions
-{
-    int x;
-    int y;
-    int width;
-    int height;
-};
 
 class OsuPlayer : public QObject
 {

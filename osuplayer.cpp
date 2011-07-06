@@ -6,7 +6,7 @@ OsuPlayer::OsuPlayer(QObject *parent) :
     current_song_progress_ = 0;
     mouseMaster = new MouseMaster(this, 100);
     fileParser = new OsuFileParser();
-    delay_ = 470;
+    delay_ = 520;
     real_song_timer_ = new QTimer(this);
     connect(real_song_timer_, SIGNAL(timeout()), this, SLOT(HitObjectTime()));
     //real_song_timer_->setSingleShot(true);
@@ -25,6 +25,7 @@ void OsuPlayer::SetHwnd(HWND osu_hwnd)
 void OsuPlayer::SetWindowSize(WindowDimensions osu_window_dimensions)
 {
     osu_window_dimensions_ = osu_window_dimensions;
+    fileParser->SetWindowSize(osu_window_dimensions);
 }
 void OsuPlayer::SetDelay(int delay)
 {
@@ -66,16 +67,14 @@ void OsuPlayer::RealSongStart()
 void OsuPlayer::SetUpTimers()
 {
     current_object_ = 0;
-    qDebug() << "finished loading.. or so it would seem..";
     real_song_timer_->start(song_[0].time + delay_);
 }
 
 void OsuPlayer::HitObjectTime()
 {
+    real_song_timer_->start(song_[current_object_ + 1].time - song_[current_object_].time);
     // make sure you have in-game sensitivity set to 1x
-    int new_x = ((song_[current_object_].x) * osu_window_dimensions_.width) + osu_window_dimensions_.x;
-    int new_y = ((song_[current_object_].y) * osu_window_dimensions_.height) + osu_window_dimensions_.y;
-    mouseMaster->SetPosition(new_x, new_y);
+    mouseMaster->SetPosition(song_[current_object_].x, song_[current_object_].y);
     if (song_[current_object_].type == 1)
     {
         mouseMaster->Click();
@@ -87,8 +86,7 @@ void OsuPlayer::HitObjectTime()
         mouseMaster->ReleaseButton1();
     }
     current_object_ ++;
-    real_song_timer_->stop();
-    TCHAR window_title_[101];
+    /*TCHAR window_title_[101];
     GetWindowText(osu_window_hwnd_, window_title_, 100);
     for (int i = 0; i < 100; ++i)
     {
@@ -101,6 +99,5 @@ void OsuPlayer::HitObjectTime()
             real_song_timer_->stop();
             return;
         }
-    }
-    real_song_timer_->start(song_[current_object_].time - song_[current_object_ - 1].time);
+    }*/
 }
