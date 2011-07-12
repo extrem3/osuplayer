@@ -8,8 +8,6 @@ MouseMaster::MouseMaster(QObject *parent, int fps):
     dy_ = 0;
     final_x_ = 0;
     final_y_ = 0;
-    x_ = 0;
-    y_ = 0;
     fps_times_ = 0;
 }
 int MouseMaster::GetPositionX()
@@ -31,7 +29,8 @@ void MouseMaster::SetPosition(int x, int y)
 void MouseMaster::Click()
 {
     GetCursorPos(&cursorPos_);
-    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, cursorPos_.x, cursorPos_.y, 0, 0);
+    mouse_event(MOUSEEVENTF_LEFTDOWN, cursorPos_.x, cursorPos_.y, 0, 0);
+    QTimer::singleShot(15, this, SLOT(ReleaseButton1()));
 }
 void MouseMaster::Click(int x, int y)
 {
@@ -63,13 +62,8 @@ void MouseMaster::MoveTo(int x, int y, int time)
     if(fps_times_ != 0)
         return;
     fps_times_ = time / (1000 / fps_);
-    x_ = GetPositionX();
-    y_ = GetPositionY();
     final_x_ = x;
     final_y_ = y;
-    dx_ = (x - x_) / fps_times_;
-    dy_ = (y - y_) / fps_times_;
-    qDebug() << fps_times_ << ": " << dx_ << "x" << dy_;
     Mover();
 }
 
@@ -78,37 +72,9 @@ void MouseMaster::Mover()
     --fps_times_;
     if (fps_times_ > 0)
     {
-        x_ += dx_;
-        y_ += dy_;
-        SetPosition(x_ + dx_, y_ + dy_);
-        qDebug() << dx_ << "x" << dy_;
-        QTimer::singleShot(1000/fps_, this, SLOT(Mover()));
-    }else
-    {
-        SetPosition(final_x_, final_y_);
-    }
-}
-
-void MouseMaster::SlideTo(int x, int y, int time)
-{
-    //if mover is doing something, dont move mouse.
-    if(fps_times_ != 0)
-        return;
-    fps_times_ = time / fps_;
-    final_x_ = x;
-    final_y_ = y;
-    dx_ = (x - GetPositionX()) / fps_times_;
-    dy_ = (y - GetPositionY()) / fps_times_;
-    Mover();
-}
-
-void MouseMaster::Slider()
-{
-    --fps_times_;
-    if (fps_times_ > 0)
-    {
+        dx_ = (final_x_ - GetPositionX()) / fps_times_;
+        dy_ = (final_y_ - GetPositionY()) / fps_times_;
         SetPosition(GetPositionX() + dx_, GetPositionY() + dy_);
-        qDebug() << dx_ << "x" << dy_;
         QTimer::singleShot(1000/fps_, this, SLOT(Mover()));
     }else
     {

@@ -10,6 +10,11 @@ std::vector<HitPointDetails> OsuFileParser::GetParsedFile()
     return hit_marks_;
 }
 
+void OsuFileParser::SetWindowSize(WindowDimensions osu_window_dimensions)
+{
+    osu_window_dimensions_ = osu_window_dimensions;
+}
+
 void OsuFileParser::ParseFile(QString file_name)
 {
     bool hit_points_found = false;
@@ -54,8 +59,8 @@ void OsuFileParser::AddSpinner(QString spinner_string)
 
     HitPointDetails hit_positions;
     hit_positions.type = 4;
-    hit_positions.x = QString(hit_point_list.at(0).toLocal8Bit().data()).toInt();
-    hit_positions.y = QString(hit_point_list.at(1).toLocal8Bit().data()).toInt();
+    hit_positions.x = SetRelativeX(QString(hit_point_list.at(0).toLocal8Bit().data()).toDouble());
+    hit_positions.y = SetRelativeY(QString(hit_point_list.at(1).toLocal8Bit().data()).toDouble());
     hit_positions.time = QString(hit_point_list.at(2).toLocal8Bit().data()).toInt();
 
     hit_marks_.push_back(hit_positions);
@@ -90,8 +95,8 @@ void OsuFileParser::AddSlider(QString slider_string)
     // beginning of slider
     HitPointDetails hit_positions;
     hit_positions.type = 2;
-    hit_positions.x = QString(hit_point_list.at(0)).toInt();
-    hit_positions.y = QString(hit_point_list.at(1)).toInt();
+    hit_positions.x = SetRelativeX(QString(hit_point_list.at(0)).toDouble());
+    hit_positions.y = SetRelativeY(QString(hit_point_list.at(1)).toDouble());
     hit_positions.time = QString(hit_point_list.at(2)).toInt();
     hit_marks_.push_back(hit_positions);
 
@@ -110,9 +115,9 @@ void OsuFileParser::AddSlider(QString slider_string)
         {
             inner_positions.type = 0;
         }
-        inner_positions.x = QString(inner_list_coordinates.at(0)).toInt();
-        inner_positions.y = QString(inner_list_coordinates.at(1)).toInt();
-        inner_positions.time = 50;
+        inner_positions.x = SetRelativeX(QString(inner_list_coordinates.at(0)).toDouble());
+        inner_positions.y = SetRelativeY(QString(inner_list_coordinates.at(1)).toDouble());
+        inner_positions.time = hit_positions.time + i * 20;
 
         hit_marks_.push_back(inner_positions);
 
@@ -136,8 +141,8 @@ void OsuFileParser::AddHitPoint(QString hit_point_string)
 
     HitPointDetails hit_positions;
     hit_positions.type = 1;
-    hit_positions.x = QString(hit_point_list.at(0).toLocal8Bit().data()).toInt();
-    hit_positions.y = QString(hit_point_list.at(1).toLocal8Bit().data()).toInt();
+    hit_positions.x = SetRelativeX(QString(hit_point_list.at(0).toLocal8Bit().data()).toDouble());
+    hit_positions.y = SetRelativeY(QString(hit_point_list.at(1).toLocal8Bit().data()).toDouble());
     hit_positions.time = QString(hit_point_list.at(2).toLocal8Bit().data()).toInt();
 
     hit_marks_.push_back(hit_positions);
@@ -176,3 +181,12 @@ int OsuFileParser::DetermineLineType(QString line, bool hit_points_section_found
     return 0;
 }
 
+int OsuFileParser::SetRelativeX(double x)
+{
+    return (x / kWindowWidthPercentage * osu_window_dimensions_.width) + osu_window_dimensions_.x;
+}
+
+int OsuFileParser::SetRelativeY(double y)
+{
+    return (y / kWindowHeightPercentage * osu_window_dimensions_.height) + osu_window_dimensions_.y;
+}

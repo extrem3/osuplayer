@@ -41,7 +41,7 @@ int MainWindow::GetDirectory()
 
 void MainWindow::on_btn_go_clicked()
 {
-    osuPlayer->ProcessSong(QString("D:/games/osu/Songs/21472 Yoko Takahashi - Cruel Angel's Thesis (TV Size)/Yoko Takahashi - Cruel Angel's Thesis (TV Size) (lepidopodus) [Easy].osu"));
+    osuPlayer->ProcessSong(QString("D:/games/osu/Songs/25569 Nico Nico Douga - Fight Against Squid Girl/Nico Nico Douga - Fight Against Squid Girl (Mafiamaster) [Dou Degeso!].osu"));
     osuPlayer->Play();
 }
 
@@ -55,10 +55,15 @@ void MainWindow::on_btn_getOsuDimensions_clicked()
     qDebug() << GetWindowText(osu_hwnd, &str, 10);
 
     GetWindowRect(osu_hwnd, &osu_window_dimensions);
-    osu_window_.x = osu_window_dimensions.left + 3;
-    osu_window_.width = osu_window_dimensions.right - osu_window_dimensions.left - 6;
-    osu_window_.y = osu_window_dimensions.top + 25;
-    osu_window_.height = osu_window_dimensions.bottom - osu_window_dimensions.top - 28;
+    osu_window_.x = osu_window_dimensions.left + 3 + 240;
+    osu_window_.width = osu_window_dimensions.right - osu_window_dimensions.left - 6 - 480;
+    osu_window_.y = osu_window_dimensions.top + 25 + 100;
+    osu_window_.height = osu_window_dimensions.bottom - osu_window_dimensions.top - 28 - 200;
+
+    /*ui->lbl_x->setText(QString::number(osu_window_.x - 240));
+    ui->lbl_width->setText(QString::number(osu_window_.width + 480));
+    ui->lbl_y->setText(QString::number(osu_window_.y - 100));
+    ui->lbl_height->setText(QString::number(osu_window_.height + 200));*/
 
     ui->lbl_x->setText(QString::number(osu_window_.x));
     ui->lbl_width->setText(QString::number(osu_window_.width));
