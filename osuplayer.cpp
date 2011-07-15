@@ -6,7 +6,7 @@ OsuPlayer::OsuPlayer(QObject *parent) :
     current_song_progress_ = 0;
     mouseMaster = new MouseMaster(this, 100);
     fileParser = new OsuFileParser();
-    delay_ = 1010;
+    delay_ = 30;
     real_song_timer_ = new QTimer(this);
     connect(real_song_timer_, SIGNAL(timeout()), this, SLOT(HitObjectTime()));
 }

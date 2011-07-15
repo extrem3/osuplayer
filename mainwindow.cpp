@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     osuPlayer = new OsuPlayer(this);
+    GetDirectory();
 }
 
 MainWindow::~MainWindow()
@@ -22,35 +23,34 @@ int MainWindow::GetDirectory()
 
     foreach (QString song, dir.entryList())
     {
-        QStandardItem *songName = new QStandardItem(song);
-        QDir dir_songs(ui->lne_dir->text() + "/songs/" + song);
-        foreach (QString difficulty, dir_songs.entryList())
+        if (song != "." && song != "..")
         {
-            if (difficulty.endsWith(".osu"))
+            QStandardItem *songName = new QStandardItem();
+            songName->setData(song, Qt::AccessibleDescriptionRole);
+            songName->setData(ExtractSongName(song), Qt::DisplayRole);
+            QDir dir_songs(ui->lne_dir->text() + "/songs/" + song);
+            foreach (QString difficulty, dir_songs.entryList())
             {
-                QStandardItem *difficultyName = new QStandardItem(difficulty);
-                songName->appendRow(difficultyName);
+                if (difficulty.endsWith(".osu"))
+                {
+                    QStandardItem *difficultyName = new QStandardItem();
+                    difficultyName->setData(difficulty, Qt::AccessibleDescriptionRole);
+                    difficultyName->setData(ExtractSongDifficulty(difficulty), Qt::DisplayRole);
+                    songName->appendRow(difficultyName);
+                }
             }
+            model.appendRow(songName);
         }
-        model.appendRow(songName);
     }
-
+    model.sort(0);
     ui->clw_dir->setModel(&model);
     return 1;
 }
 
 void MainWindow::on_btn_go_clicked()
 {
-    osuPlayer->ProcessSong(QString("D:/games/osu/Songs/24765 Kozato snow - Rengetsu Ouka/Kozato snow - Rengetsu Ouka (_Kiva) [Yuki YukI].osu"));
-    osuPlayer->Play();
-}
-
-void MainWindow::on_btn_getOsuDimensions_clicked()
-{
     HWND osu_hwnd = FindWindow(TEXT("WindowsForms10.Window.8.app.0.3ce0bb8"), NULL);
     RECT osu_window_dimensions;
-
-    WCHAR str;
 
     GetWindowRect(osu_hwnd, &osu_window_dimensions);
     osu_window_.x = osu_window_dimensions.left + 3 + 240;
@@ -58,21 +58,32 @@ void MainWindow::on_btn_getOsuDimensions_clicked()
     osu_window_.y = osu_window_dimensions.top + 25 + 100;
     osu_window_.height = osu_window_dimensions.bottom - osu_window_dimensions.top - 28 - 200;
 
-    /*ui->lbl_x->setText(QString::number(osu_window_.x - 240));
-    ui->lbl_width->setText(QString::number(osu_window_.width + 480));
-    ui->lbl_y->setText(QString::number(osu_window_.y - 100));
-    ui->lbl_height->setText(QString::number(osu_window_.height + 200));*/
-
-    ui->lbl_x->setText(QString::number(osu_window_.x));
-    ui->lbl_width->setText(QString::number(osu_window_.width));
-    ui->lbl_y->setText(QString::number(osu_window_.y));
-    ui->lbl_height->setText(QString::number(osu_window_.height));
-
     osuPlayer->SetHwnd(osu_hwnd);
     osuPlayer->SetWindowSize(osu_window_);
+    osuPlayer->SetDelay(QString(ui->lne_delay->text()).toInt());
+
+    osuPlayer->ProcessSong(GetFullDirectoryPath());
+
+    osuPlayer->Play();
 }
 
-void MainWindow::SongFocused()
+QString MainWindow::GetFullDirectoryPath()
 {
+    QModelIndex item = ui->clw_dir->currentIndex();
+    return ui->lne_dir->text() + "/Songs/" +
+           item.parent().data(Qt::AccessibleDescriptionRole).toString() +
+           "/" + item.data(Qt::AccessibleDescriptionRole).toString();
+}
 
+QString MainWindow::ExtractSongName(QString full_path)
+{
+    full_path.remove(0, full_path.indexOf(" "));
+    return full_path;
+}
+
+QString MainWindow::ExtractSongDifficulty(QString full_name)
+{
+    full_name.remove(0, full_name.lastIndexOf("[") + 1);
+    full_name.remove(full_name.lastIndexOf("]"), full_name.length());
+    return full_name;
 }

@@ -27,15 +27,13 @@ public:
     OsuFileParser *fileParser;
     OsuPlayer *osuPlayer;
     QTimer *timer;
+    QString ExtractSongName(QString full_path);
+    QString ExtractSongDifficulty(QString full_name);
 public slots:
-        int GetDirectory();
-        void SongFocused();
-
+    int GetDirectory();
+    QString GetFullDirectoryPath();
 private slots:
-        void on_btn_go_clicked();
-        void on_btn_getOsuDimensions_clicked();
-
-
+    void on_btn_go_clicked();
 private:
     Ui::MainWindow *ui;
 };
