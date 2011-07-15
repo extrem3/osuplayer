@@ -14,11 +14,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mousemaster.cpp \
     osufileparser.cpp \
-    osuplayer.cpp
+    osuplayer.cpp \
+    timer.cpp
 
 HEADERS  += mainwindow.h \
     mousemaster.h \
     osufileparser.h \
-    osuplayer.h
+    osuplayer.h \
+    timer.h
 
 FORMS    += mainwindow.ui

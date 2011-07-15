@@ -6,10 +6,9 @@ OsuPlayer::OsuPlayer(QObject *parent) :
     current_song_progress_ = 0;
     mouseMaster = new MouseMaster(this, 100);
     fileParser = new OsuFileParser();
-    delay_ = 520;
+    delay_ = 1010;
     real_song_timer_ = new QTimer(this);
     connect(real_song_timer_, SIGNAL(timeout()), this, SLOT(HitObjectTime()));
-    //real_song_timer_->setSingleShot(true);
 }
 OsuPlayer::~OsuPlayer()
 {
@@ -36,7 +35,6 @@ void OsuPlayer::ProcessSong(QString song_location)
 {
     fileParser->ParseFile(song_location);
     song_ = fileParser->GetParsedFile();
-    //fileParser->TraceVector(song_);
 }
 
 void OsuPlayer::Play()
@@ -46,58 +44,71 @@ void OsuPlayer::Play()
     mouseMaster->SetPosition(osu_window_dimensions_.x + osu_window_dimensions_.width + 100,
                              osu_window_dimensions_.y + osu_window_dimensions_.height + 50);
     QTimer::singleShot(150, mouseMaster, SLOT(Click()));
-    song_started_timer_ = new QTimer(this);
-    connect(song_started_timer_, SIGNAL(timeout()), this, SLOT(RealSongStart()));
-    song_started_timer_->start(10);
+    QTimer::singleShot(170, this, SLOT(RealSongStart()));
 }
 void OsuPlayer::RealSongStart()
 {
     // song has to be loaded, so we have to keep on checking if it's loaded.
     // the title of window changes in when the song is loaded.
+    current_object_ = 0;
     TCHAR window_title_[11];
-    if (GetWindowText(osu_window_hwnd_, window_title_, 10) == 9)
+    for ( ; ; )
     {
-        song_started_timer_->stop();
-        delete song_started_timer_;
-
-        SetUpTimers();
+        if (GetWindowText(osu_window_hwnd_, window_title_, 10) == 9)
+        {
+            break;
+        }
     }
+    HitObjectTime();
 }
 
 void OsuPlayer::SetUpTimers()
 {
     current_object_ = 0;
-    real_song_timer_->start(song_[0].time + delay_);
+    //QTimer::singleShot(0, this, SLOT(HitObjectTime()));
+
 }
 
 void OsuPlayer::HitObjectTime()
 {
-    real_song_timer_->start(song_[current_object_ + 1].time - song_[current_object_].time);
-    // make sure you have in-game sensitivity set to 1x
-    mouseMaster->SetPosition(song_[current_object_].x, song_[current_object_].y);
-    if (song_[current_object_].type == 1)
+    //qDebug() << "starting";
+    song_playing_time_ = new AccurateTimer();
+
+    TCHAR window_title_[101];
+    for ( ; ; )
     {
-        mouseMaster->Click();
-    }else if (song_[current_object_].type == 2)
-    {
-        mouseMaster->PressButton1();
-    }else
-    {
-        mouseMaster->ReleaseButton1();
+        if (song_playing_time_->GetMiliseconds() >= song_[current_object_].time + delay_)
+        {
+            //qDebug() << song_playing_time_->GetMiliseconds() << " x " << song_[current_object_].time + delay_;
+            // make sure you have in-game sensitivity set to 1x
+            mouseMaster->SetPosition(song_[current_object_].x, song_[current_object_].y);
+            if (song_[current_object_].type == 1)
+            {
+                mouseMaster->Click();
+            }else if (song_[current_object_].type == 2)
+            {
+                //mouseMaster->PressButton1();
+            }else
+            {
+                //mouseMaster->ReleaseButton1();
+            }
+            ++current_object_;
+            if (current_object_ >= song_.size())
+            {
+                break;
+            }
+            GetWindowText(osu_window_hwnd_, window_title_, 100);
+            for (int i = 0; i < 100; ++i)
+            {
+                if (window_title_[i + 1] == '\0')
+                {
+                    break;
+                }
+                if (window_title_[i] == 'F' && window_title_[i + 1] == 'a')
+                {
+                    return;
+                }
+            }
+        }
     }
-    current_object_ ++;
-    /*TCHAR window_title_[101];
-    GetWindowText(osu_window_hwnd_, window_title_, 100);
-    for (int i = 0; i < 100; ++i)
-    {
-        if (window_title_[i + 1] == '\0')
-        {
-            break;
-        }
-        if (window_title_[i] == 'F' && window_title_[i + 1] == 'a')
-        {
-            real_song_timer_->stop();
-            return;
-        }
-    }*/
 }

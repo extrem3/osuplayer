@@ -1,12 +1,15 @@
 #ifndef OSUPLAYER_H
 #define OSUPLAYER_H
 
+#include <QDebug>
 #include <QObject>
 #include <QString>
 #include <QTimer>
+#include <QElapsedTimer>
 #include <windows.h>
 #include "mousemaster.h"
 #include "osufileparser.h"
+#include "timer.h"
 
 
 class OsuPlayer : public QObject
@@ -22,6 +25,7 @@ class OsuPlayer : public QObject
     std::vector< HitPointDetails > song_;
     bool song_started_;
     QTimer *song_started_timer_;
+    AccurateTimer *song_playing_time_;
     int current_object_;
 public:
     explicit OsuPlayer(QObject *parent = 0);

@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <windows.h>
+#include "timer.h"
 
 class MouseMaster : public QObject
 {

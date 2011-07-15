@@ -41,7 +41,7 @@ int MainWindow::GetDirectory()
 
 void MainWindow::on_btn_go_clicked()
 {
-    osuPlayer->ProcessSong(QString("D:/games/osu/Songs/25569 Nico Nico Douga - Fight Against Squid Girl/Nico Nico Douga - Fight Against Squid Girl (Mafiamaster) [Dou Degeso!].osu"));
+    osuPlayer->ProcessSong(QString("D:/games/osu/Songs/24765 Kozato snow - Rengetsu Ouka/Kozato snow - Rengetsu Ouka (_Kiva) [Yuki YukI].osu"));
     osuPlayer->Play();
 }
 
@@ -51,8 +51,6 @@ void MainWindow::on_btn_getOsuDimensions_clicked()
     RECT osu_window_dimensions;
 
     WCHAR str;
-
-    qDebug() << GetWindowText(osu_hwnd, &str, 10);
 
     GetWindowRect(osu_hwnd, &osu_window_dimensions);
     osu_window_.x = osu_window_dimensions.left + 3 + 240;
