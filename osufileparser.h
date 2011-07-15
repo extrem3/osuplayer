@@ -34,9 +34,11 @@ public:
     void SetWindowSize(WindowDimensions osu_window_dimensions);
     std::vector<HitPointDetails> GetParsedFile();
     void TraceVector(std::vector<HitPointDetails> song);
+    int GetAudioDelay();
 private:
     WindowDimensions osu_window_dimensions_;
     std::vector< HitPointDetails > hit_marks_;
+    int audio_in_delay_;
     void AddHitPoint(QString hit_point_string);
     void AddSlider(QString slider_string);
     void AddSpinner(QString spinner_string);

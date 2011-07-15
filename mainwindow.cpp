@@ -60,9 +60,9 @@ void MainWindow::on_btn_go_clicked()
 
     osuPlayer->SetHwnd(osu_hwnd);
     osuPlayer->SetWindowSize(osu_window_);
-    osuPlayer->SetDelay(QString(ui->lne_delay->text()).toInt());
 
     osuPlayer->ProcessSong(GetFullDirectoryPath());
+    osuPlayer->SetDelay(QString(ui->lne_delay->text()).toInt());
 
     osuPlayer->Play();
 }

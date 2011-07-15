@@ -26,6 +26,13 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
+         <widget class="QLabel" name="lbl_dir">
+          <property name="text">
+           <string>osu! install directory:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QLineEdit" name="lne_dir">
           <property name="text">
            <string>D:/games/osu</string>
@@ -543,7 +550,7 @@
       <item>
        <widget class="QLineEdit" name="lne_delay">
         <property name="text">
-         <string>1030</string>
+         <string>30</string>
         </property>
        </widget>
       </item>

@@ -1,6 +1,7 @@
 #include "osufileparser.h"
 
-OsuFileParser::OsuFileParser()
+OsuFileParser::OsuFileParser():
+    audio_in_delay_(0)
 {
 
 }
@@ -154,6 +155,11 @@ void OsuFileParser::TraceVector(std::vector<HitPointDetails> song)
         qDebug() << (*it).type << " x:" << (*it).x << " y:" << (*it).y << " time:" << (*it).time;
     }
 }
+int OsuFileParser::GetAudioDelay()
+{
+    return audio_in_delay_;
+}
+
 
 int OsuFileParser::DetermineLineType(QString line, bool hit_points_section_found)
 {
@@ -162,6 +168,11 @@ int OsuFileParser::DetermineLineType(QString line, bool hit_points_section_found
         if (line == "[HitObjects]")
         {
             return 5;
+        }
+        if (line.contains("AudioLeadIn"))
+        {
+            audio_in_delay_ = line.section(' ', 1, 1).toInt();
+            return 0;
         }
     }else
     {
@@ -190,3 +201,4 @@ int OsuFileParser::SetRelativeY(double y)
 {
     return (y / kWindowHeightPercentage * osu_window_dimensions_.height) + osu_window_dimensions_.y;
 }
+

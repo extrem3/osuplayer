@@ -28,7 +28,7 @@ void OsuPlayer::SetWindowSize(WindowDimensions osu_window_dimensions)
 }
 void OsuPlayer::SetDelay(int delay)
 {
-    delay_ = delay;
+    delay_ = delay + fileParser->GetAudioDelay();
 }
 
 void OsuPlayer::ProcessSong(QString song_location)
